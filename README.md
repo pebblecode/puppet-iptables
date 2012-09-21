@@ -1,8 +1,10 @@
-# puppet-motd
+# puppet-iptables
 
-This is a puppet module for managing the motd
+This is a puppet module for managing iptables
 
 # Usage
 
-    include motd
+  class { iptables: 
+    ssh_port => 8675
+  }
 
