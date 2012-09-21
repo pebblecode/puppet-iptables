@@ -52,12 +52,12 @@ class iptables($ssh_port = 22) {
   }
 
   exec { "save rules":
-    path    => '/bin:/usr/bin:/usr/sbin',
+    path    => '/bin:/usr/bin:/usr/sbin:/sbin',
     command => "iptables-save > /etc/iptables.rules",
   }
 
   exec { "add pre-up":
-    path    => '/bin:/usr/bin:/usr/sbin',
+    path    => '/bin:/usr/bin:/usr/sbin:/sbin',
     command => "echo 'pre-up iptables-restore /etc/iptables.rules' >> /etc/network/interfaces",
   }
 }
