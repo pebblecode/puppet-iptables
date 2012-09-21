@@ -1,0 +1,44 @@
+#!/bin/bash
+#
+# Flush all current rules from iptables
+#
+ iptables -F
+
+#
+# Trust subnets
+#
+iptables -A INPUT -s 192.168.3.0/24 -j ACCEPT
+iptables -A INPUT -s 10.128.0.0/24 -j ACCEPT
+
+#
+# Set default policies for INPUT, FORWARD and OUTPUT chains
+#
+ iptables -P INPUT DROP
+ iptables -P FORWARD DROP
+ iptables -P OUTPUT ACCEPT
+#
+# Set access for localhost
+#
+ iptables -A INPUT -i lo -j ACCEPT
+#
+# Accept packets belonging to established and related connections
+#
+ iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+#
+# Accept tcp packets on SSH port <%= ssh_port %>
+#
+ iptables -A INPUT -p tcp --dport <%= ssh_port %> -j ACCEPT
+#
+# Open Web Ports
+#
+ iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+ iptables -A INPUT -p tcp --dport 443 -j ACCEPT
+#
+# Save settings
+#
+ /sbin/service iptables save
+#
+# List rules
+#
+ iptables -L -v
+
