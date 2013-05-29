@@ -56,15 +56,15 @@ class iptables($ssh_port = 22) {
   exec { "save rules":
     path    => '/bin:/usr/bin:/usr/sbin:/sbin',
     subscribe => File["/root/bin/firewall.sh"],
-    refreshonly => true
     command => "iptables-save > /etc/iptables.rules",
+    refreshonly => true
   }
 
   exec { "add pre-up":
     path    => '/bin:/usr/bin:/usr/sbin:/sbin',
     subscribe => File["/root/bin/firewall.sh"],
-    refreshonly => true
     command => "echo 'pre-up iptables-restore /etc/iptables.rules' >> /etc/network/interfaces",
+    refreshonly => true
   }
 
 }
